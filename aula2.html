@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="aula1.css">
+  </head>
+
+  <body>
+    <div id="app">
+      <p>{{title}}</p>
+      <h3>Lista de Tarefas</h3>
+      <input v-model="novatarefa" placeholder="Insira a nova tarefa">
+      <button @click="inseretarefa()">Inserir</button>
+      <ul>
+        <li v-for="tarefa in tarefas" :class="{realizada:tarefa.realizada, prioritario:tarefa.prioritario}" @click="tarefarealizada(tarefa)" @dblclick='tarefaprioritaria(tarefa)'>
+          {{tarefa.nome}}
+        </li>
+      </ul>
+    </div>
+  </body>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        title: "hello world",
+        tarefa: "",
+        tarefas: [{nome:'Exercicio HTML', prioritario:false, realizada:false},
+        {nome:'Exercicio JavaScript', prioritario:false, realizada:false},
+        {nome:'Exercicio Phy', prioritario:false, realizada:false},
+        {nome:'Exercicio C++', prioritario:false, realizada:false}],
+      },
+      methods: {
+          inseretarefa: function(){
+              if (this.novatarefa) {
+                this.tarefas.push({
+                    nome: this.novatarefa,
+                    prioritario: false,
+                    realizada: false
+                })
+                this.novatarefa=''
+              }
+          },
+          tarefarealizada: function (tarefa){
+              tarefa.realizada =! tarefa.realizada
+          },
+          tarefaprioritaria: function (tarefa){
+              tarefa.prioritario =! tarefa.prioritario
+          }
+      }
+    });
+  </script>
+  <style>
+      .realizada {
+          text-decoration: line-through palevioletred;
+          color: gray;
+      }
+      .prioritario {
+          color: purple;
+          text-decoration: underline purple;
+          font-weight: bolder;
+      }
+  </style>
+</html>

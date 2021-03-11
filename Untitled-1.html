@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+
+<script>
+console.log("asd");
+</script>
+</head>
+
+<body>
+<div id="app">
+<p>{{title}}</p>
+<input v-model="message" placeholder="edit me" />
+<p>Message is: {{ message }}</p>
+</div>
+</body>
+
+<script>
+const app = new Vue({
+el: "#app",
+data: {
+title: "hello world",
+},
+});
+</script>
+</html>
