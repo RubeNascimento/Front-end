@@ -9,13 +9,26 @@
 </head>
 
 <body>
+    <style>
+        .barraverde {
+            background-color: green;
+            color: black;
+            margin: 0;
+        }
+
+        .barravermelha {
+            background-color: red;
+            color: white;
+            margin: 0;
+        }
+    </style>
     <div id="app">
         <section class="row">
             <div class="small-6 columns">
                 <h1 class="text-center">YOU</h1>
                 <div class="healthbar">
                     <div class="healthbar text-center"
-                    style="background-color: green; margin:0"
+                    :class="[lowhealthplayer ? 'barravermelha': 'barraverde']"
                     :style="{width:playerHealth+'%'}">
 
                     </div>
@@ -64,7 +77,9 @@
             playerHealth: 100,
             monsterHealth: 100,
             startgame: false,
-            historicos: []
+            historicos: [],
+            lowhealthplayer: false,
+            lowhealthmonster: false
         },
         methods: {
             comecaGame: function (){
@@ -84,6 +99,14 @@
                     alert("Player ganhou");
                     this.startgame=false;
                     window.location.reload();
+                }
+
+                if (playerHealth<=50){
+                    this.lowhealthplayer=true;
+                }
+
+                if (monsterHealth<=50){
+                    this.lowhealthmonster=true;
                 }
             },
             ataque: function (){
