@@ -48,7 +48,8 @@
         <section class="row log">
             <div class="small-12 columns">
                 <ul>
-                    <li>
+                    <li v-for="historico in historicos">
+                        {{historico.texto}}
                     </li>
                 </ul>
             </div>
@@ -62,13 +63,14 @@
             playerHealth: 100,
             monsterHealth: 100,
             startgame: false,
-            listaAcoes: ["Player atacou por","Monstro atacou por", "regenerou-se por"]
+            historicos: []
         },
         methods: {
             comecaGame: function (){
                 this.startgame= true;
                 this.playerHealth=100;
                 this.monsterHealth=100;
+                this.historicos=[];
                 console.log("Entrou")
             },
             verificaVida: function (playerHealth,monsterHealth){
@@ -89,11 +91,19 @@
                 var dano = Math.max(Math.floor(Math.random() * max) + 1, min);
                 this.playerHealth = this.playerHealth - dano;
 
+                this.historicos.unshift({
+                    texto:"O Monstro deu " +dano+ " no Player"
+                })
+
                 var maxMonstro = 30;
                 var minMonstro = 1;
 
                 var danoMonstro = Math.max(Math.floor(Math.random() * maxMonstro) + 1, minMonstro);
                 this.monsterHealth = this.monsterHealth - danoMonstro;
+
+                this.historicos.unshift({
+                    texto:"O Player deu " +danoMonstro+ " no Monstro"
+                })
 
                 this.verificaVida(this.playerHealth,this.monsterHealth);
 
@@ -108,6 +118,10 @@
 
                 var danoMonstro = Math.max(Math.floor(Math.random() * maxMonstro) + 1, minMonstro);
                 this.monsterHealth = this.monsterHealth - danoMonstro;
+
+                this.historicos.unshift({
+                    texto:"O Player deu um ataque especial de "+danoMonstro+" no Monstro"
+                })
 
                 this.verificaVida(this.playerHealth,this.monsterHealth);
                 console.log(this.monsterHealth)
@@ -124,6 +138,10 @@
                 else {
                     this.playerHealth = this.playerHealth + healing;
                 }
+
+                this.historicos.unshift({
+                    texto:"O Player regenerou-se com "+healing+" pontos de vida"
+                })
             },
             giveup: function (){
                 alert("Monstro ganhou");
