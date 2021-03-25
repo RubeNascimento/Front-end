@@ -6,10 +6,14 @@
     <script src="https://npmcdn.com/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="foundation.min.css">
     <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 
 <body>
     <style>
+        body {
+            background: url("http://orig12.deviantart.net/70ab/f/2015/030/9/e/paper_mario_battle_background_by_yoshipapaercrafter-d8g09jv.png") center center fixed;
+ }
         .barraverde {
             background-color: green;
             color: black;
@@ -38,7 +42,7 @@
                 <h1 class="text-center">MONSTER</h1>
                 <div class="healthbar">
                     <div class="healthbar text-center"
-                    style="background-color: green; margin:0"
+                    :class="[lowhealthmonster ? 'barravermelha': 'barraverde']"
                     :style="{width:monsterHealth+'%'}">
 
                     </div>
@@ -50,15 +54,20 @@
                 <button id="start-game" @click="comecaGame()">START NEW GAME</button>
             </div>
         </section>
-        <section class="row controls">
-            <div class="small-12 columns">
+        <section class="row controls" v-if="startgame">
+            <div class="small-gif">
+                <img src="https://i.pinimg.com/originals/f6/7a/b9/f67ab96b6322ffd79ba6235bd32b256f.gif">
+            </div>
+        </section>
+        <section class="row controls" v-if="startgame">
+            <div class="small-12 columns" >
                 <button id="attack" @click="ataque()">ATTACK</button>
                 <button id="special-attack" @click="specialAttack()">SPECIAL ATTACK</button>
                 <button id="heal" @click="heal()">HEAL</button>
-                <button id="give-up" @click="giveup()">GIVE UP</button>
+                <button id="give-up" class="animate__hinge" @click="giveup()">GIVE UP</button>
             </div>
         </section>
-        <section class="row log">
+        <section class="row log" v-if="historicos.length>0">
             <div class="small-12 columns">
                 <ul>
                     <li v-for="historico in historicos"
@@ -79,9 +88,11 @@
             startgame: false,
             historicos: [],
             lowhealthplayer: false,
-            lowhealthmonster: false
+            lowhealthmonster: false,
+            ativo:true
         },
         methods: {
+
             comecaGame: function (){
                 this.startgame= true;
                 this.playerHealth=100;
@@ -166,6 +177,14 @@
                     this.playerHealth = this.playerHealth + healing;
                 }
 
+                if (this.playerHealth>50){
+                    this.lowhealthplayer=false;
+                }
+
+                if (this.monsterHealth>50){
+                    this.lowhealthmonster=false;
+                }
+
                 this.historicos.unshift({
                     texto:"O Player regenerou-se com "+healing+" pontos de vida",
                     player:true,
@@ -175,6 +194,7 @@
                 alert("Monstro ganhou");
                 this.startgame=false;
                 window.location.reload();
+                this.ativo =! this.ativo;
             }
         }
     })
