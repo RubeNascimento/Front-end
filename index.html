@@ -62,7 +62,7 @@
         <section class="row controls" v-if="startgame">
             <div class="small-12 columns" >
                 <button id="attack" @click="ataque()">ATTACK</button>
-                <button id="special-attack" @click="specialAttack()">SPECIAL ATTACK</button>
+                <button id="special-attack" @click="specialAttack()" :disabled="clicked">SPECIAL ATTACK</button>
                 <button id="heal" @click="heal()">HEAL</button>
                 <button id="give-up" class="animate__hinge" @click="giveup()">GIVE UP</button>
             </div>
@@ -89,7 +89,8 @@
             historicos: [],
             lowhealthplayer: false,
             lowhealthmonster: false,
-            ativo:true
+            ativo:true,
+            clicked: false
         },
         methods: {
 
@@ -161,6 +162,8 @@
                     player: true,
                 })
 
+                this.clicked =! this.clicked
+
                 this.verificaVida(this.playerHealth,this.monsterHealth);
                 console.log(this.monsterHealth)
                 console.log(this.playerHealth)
@@ -196,6 +199,13 @@
                 window.location.reload();
                 this.ativo =! this.ativo;
             }
+        },
+        watch:{
+            clicked: function(){
+                setTimeout(function(){
+                    this.clicked = false;
+                }.bind(this),3000)
+            },
         }
     })
 </script>
